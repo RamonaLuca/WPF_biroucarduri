@@ -1,0 +1,181 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ATM_WPF"
+        xmlns:AutoLotModel="clr-namespace:AutoLotModel;assembly=AutoLotModel" x:Class="ATM_WPF.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="518" Width="819" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="cardViewSource" d:DesignSource="{d:DesignInstance {x:Type AutoLotModel:Card}, CreateList=True}"/>
+        <CollectionViewSource x:Key="tranzactiiViewSource" d:DesignSource="{d:DesignInstance {x:Type AutoLotModel:Tranzactii}, CreateList=True}"/>
+        <CollectionViewSource x:Key="contViewSource" d:DesignSource="{d:DesignInstance {x:Type AutoLotModel:Cont}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid Margin="0,0,-8,-59">
+        <TabControl x:Name="tbCtrlAutoLot" HorizontalAlignment="Left" Height="369" Margin="110,10,0,0" VerticalAlignment="Top" Width="661">
+            <TabItem Header="Card">
+                <Grid Background="#FFE5E5E5" DataContext="{StaticResource cardViewSource}" Margin="0,-10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="289*"/>
+                        <RowDefinition Height="22*"/>
+                        <RowDefinition Height="12*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0*"/>
+                        <ColumnDefinition Width="60*"/>
+                        <ColumnDefinition Width="11*"/>
+                        <ColumnDefinition Width="18*"/>
+                        <ColumnDefinition Width="518*"/>
+                        <ColumnDefinition Width="48*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="cardDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="60,3,20,180" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.ColumnSpan="2" Grid.Column="4">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="contIDColumn" Binding="{Binding ContID}" Header="Cont ID" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="iDColumn" Binding="{Binding ID}" Header="ID" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="pINColumn" Binding="{Binding PIN}" Header="PIN" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="tipCardIDColumn" Binding="{Binding TipCardID}" Header="Tip Card ID" Width="SizeToHeader"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="121,164,0,0" VerticalAlignment="Top" Grid.Column="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Cont ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="contIDTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" Text="{Binding ContID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                        <TextBox x:Name="iDTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding ID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" IsEnabled="False"/>
+                        <Label Content="PIN:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+                        <TextBox x:Name="pINTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding PIN, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="Tip Card ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+                        <TextBox x:Name="tipCardIDTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding TipCardID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                    </Grid>
+
+                    <Button x:Name="btnPrevious" Content="Previous" HorizontalAlignment="Left" Margin="60,139,0,0" VerticalAlignment="Top" Width="75" Click="btnPrevious_Click" Grid.Column="4"/>
+                    <Button x:Name="btnNext" Content="Next" HorizontalAlignment="Left" Margin="433,139,0,0" VerticalAlignment="Top" Width="75" Click="btnNext_Click" Grid.Column="4"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Tranzactii">
+                <Grid Background="#FFE5E5E5" DataContext="{StaticResource tranzactiiViewSource}">
+                    <DataGrid x:Name="tranzactiiDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="139,10,35,181" RowDetailsVisibilityMode="VisibleWhenSelected">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="contIDColumn1" Binding="{Binding ContID}" Header="Cont ID" Width="SizeToHeader"/>
+                            <DataGridTemplateColumn x:Name="data_tranzactieColumn" Header="data tranzactie" Width="SizeToHeader">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding data_tranzactie, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn x:Name="iDColumn1" Binding="{Binding ID}" Header="ID" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="sumaColumn" Binding="{Binding suma}" Header="suma" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="tipTranzactieIDColumn" Binding="{Binding TipTranzactieID}" Header="Tip Tranzactie ID" Width="SizeToHeader"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="grid2" HorizontalAlignment="Left" Margin="214,168,0,0" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Cont ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="contIDTextBox1" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" Text="{Binding ContID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="data tranzactie:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                        <DatePicker x:Name="data_tranzactieDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="1" SelectedDate="{Binding data_tranzactie, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
+                        <Label Content="ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+                        <TextBox x:Name="iDTextBox1" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding ID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" IsEnabled="False"/>
+                        <Label Content="suma:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+                        <TextBox x:Name="sumaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding suma, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="Tip Tranzactie ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+                        <TextBox x:Name="tipTranzactieIDTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="4" Text="{Binding TipTranzactieID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                    </Grid>
+                    <Button x:Name="btnPrevious1" Content="Previous" HorizontalAlignment="Left" Margin="139,160,0,0" VerticalAlignment="Top" Width="75" Click="btnPrevious1_Click"/>
+                    <Button x:Name="btnNext1" Content="Next" HorizontalAlignment="Left" Margin="545,160,0,0" VerticalAlignment="Top" Width="75" Click="btnNext1_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Cont">
+                <Grid Background="#FFE5E5E5" DataContext="{StaticResource contViewSource}" Margin="-16,-20,-2,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="11*"/>
+                        <ColumnDefinition Width="116*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="contDataGrid" AutoGenerateColumns="False" Grid.Column="1" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="106,10,10,209" RowDetailsVisibilityMode="VisibleWhenSelected">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="clientIDColumn" Binding="{Binding ClientID}" Header="Client ID" Width="SizeToHeader"/>
+                            <DataGridTemplateColumn x:Name="data_deschideriiColumn" Header="data deschiderii" Width="SizeToHeader">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding data_deschiderii, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn x:Name="iDColumn2" Binding="{Binding ID}" Header="ID" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="numar_contColumn" Binding="{Binding numar_cont}" Header="numar cont" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="soldColumn" Binding="{Binding sold}" Header="sold" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="tipContBancarIDColumn" Binding="{Binding TipContBancarID}" Header="Tip Cont Bancar ID" Width="SizeToHeader"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="grid3" HorizontalAlignment="Left" Margin="165,152,0,0" VerticalAlignment="Top" Height="199" Width="299" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="86"/>
+                            <ColumnDefinition Width="41"/>
+                            <ColumnDefinition Width="58*"/>
+                            <ColumnDefinition Width="19*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Client ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,4,0,4" Grid.Row="0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="clientIDTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="22" Margin="4,6,0,6" Grid.Row="0" Text="{Binding ClientID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2"/>
+                        <Label Content="data deschiderii:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,4" Grid.Row="1" VerticalAlignment="Center"/>
+                        <DatePicker x:Name="data_deschideriiDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="4,5,0,4" Grid.Row="1" SelectedDate="{Binding data_deschiderii, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                        <Label Content="ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,4,0,3" Grid.Row="2" VerticalAlignment="Center"/>
+                        <TextBox x:Name="iDTextBox2" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="4,5,0,5" Grid.Row="2" Text="{Binding ID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2" IsEnabled="False"/>
+                        <Label Content="numar cont:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,4" Grid.Row="3" VerticalAlignment="Center"/>
+                        <TextBox x:Name="numar_contTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="4,5,0,5" Grid.Row="3" Text="{Binding numar_cont, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2"/>
+                        <Label Content="sold:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,4,0,3" Grid.Row="4" VerticalAlignment="Center"/>
+                        <TextBox x:Name="soldTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="4,5,0,5" Grid.Row="4" Text="{Binding sold, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2"/>
+                        <Label Content="Tip Cont Bancar ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,4" Grid.Row="5" VerticalAlignment="Center"/>
+                        <TextBox x:Name="tipContBancarIDTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="5,3,0,7" Grid.Row="5" Text="{Binding TipContBancarID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2"/>
+                    </Grid>
+                    <Button x:Name="btnPrevious2" Content="Previous" Grid.Column="1" HorizontalAlignment="Left" Margin="85,152,0,0" VerticalAlignment="Top" Width="75" Click="btnPrevious2_Click"/>
+                    <Button x:Name="btnNext2" Content="Next" Grid.Column="1" HorizontalAlignment="Left" Margin="530,152,0,0" VerticalAlignment="Top" Width="75" Click="btnNext2_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <GroupBox x:Name="gbOperations" Button.Click="gbOperations_Click" HorizontalAlignment="Left" Height="121" Margin="5,41,0,0" VerticalAlignment="Top" Width="100">
+            <StackPanel x:Name="spOperations" Margin="0,23,0,29">
+                <Button x:Name="btnNew" Content="New" Click="btnNew_Click"/>
+                <Button x:Name="btnEdit" Content="Edit" Click="btnEdit_Click"/>
+                <Button x:Name="btnDelete" Content="Delete" Click="btnDelete_Click"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox x:Name="gbActions"  HorizontalAlignment="Left" Height="65" Margin="5,195,0,0" VerticalAlignment="Top" Width="100">
+            <StackPanel x:Name="spActions">
+                <Button x:Name="btnSave" Content="Save" Click="btnSave_Click"/>
+                <Button x:Name="btnCancel" Content="Cancel" Click="btnCancel_Click"/>
+            </StackPanel>
+        </GroupBox>
+
+    </Grid>
+</Window>
